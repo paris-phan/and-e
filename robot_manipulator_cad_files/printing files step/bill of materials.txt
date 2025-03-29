@@ -1,0 +1,12 @@
+claw_dynamic_mount 1x
+claw_static_mount 1x
+custom_servo_bracket 1x
+
+claw_dynamic_gripper 3x
+claw_gripper 3x
+claw_joined_spacer 6x
+claw_spacer 8x
+
+not printing
+claw_connecting_rod 7x
+claw_static_mount_rod 4x
