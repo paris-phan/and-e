@@ -24,7 +24,7 @@
 #define CMD_SINGLE_JOINT_CTRL 101
 
 // M3-C
-// {"T":102,"base":0,"shoulder":0,"elbow":1.57,"wrist":0,"roll":0,"hand":1.57,"spd":0,"acc":10}
+// {"T":102,"base":0,"shoulder":0,"elbow":1.57,"wrist":0,"hand":1.57,"spd":0,"acc":10}
 // input the angle in rad(180°=3.1415926).
 #define CMD_JOINTS_RAD_CTRL 102
 

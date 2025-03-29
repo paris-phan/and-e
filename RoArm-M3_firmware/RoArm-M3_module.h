@@ -53,9 +53,9 @@ double calculateRadByFeedback(int inputSteps, int jointName) {
   case WRIST_JOINT:
     getRad = (inputSteps * 2 * M_PI / ARM_SERVO_POS_RANGE) - M_PI;
     break;
-  case ROLL_JOINT:
-    getRad = -(inputSteps * 2 * M_PI / ARM_SERVO_POS_RANGE) + M_PI;
-    break;
+  // case ROLL_JOINT:
+  //   getRad = -(inputSteps * 2 * M_PI / ARM_SERVO_POS_RANGE) + M_PI;
+  //   break;
   case EOAT_JOINT:
     getRad = inputSteps * 2 * M_PI / ARM_SERVO_POS_RANGE;
     break;
@@ -233,7 +233,7 @@ void RoArmM3_moveInit() {
   st.WritePosEx(ELBOW_SERVO_ID, ARM_SERVO_MIDDLE_POS, ARM_SERVO_INIT_SPEED, ARM_SERVO_INIT_ACC);
   waitMove2Goal(ELBOW_SERVO_ID, ARM_SERVO_MIDDLE_POS, 80);
   st.WritePosEx(WRIST_SERVO_ID, ARM_SERVO_MIDDLE_POS, ARM_SERVO_INIT_SPEED, ARM_SERVO_INIT_ACC);
-  st.WritePosEx(ROLL_SERVO_ID, ARM_SERVO_MIDDLE_POS, ARM_SERVO_INIT_SPEED, ARM_SERVO_INIT_ACC);
+  // st.WritePosEx(ROLL_SERVO_ID, ARM_SERVO_MIDDLE_POS, ARM_SERVO_INIT_SPEED, ARM_SERVO_INIT_ACC);
 
   if(InfoPrint == 1){Serial.println("Moving GRIPPER_SERVO to middle position.");}
   st.WritePosEx(GRIPPER_SERVO_ID, ARM_SERVO_MIDDLE_POS, ARM_SERVO_INIT_SPEED, ARM_SERVO_INIT_ACC);
@@ -322,16 +322,16 @@ int RoArmM3_wristJointCtrlRad(byte returnType, double radInput, u16 speedInput, 
 }
 
 
-int RoArmM3_rollJointCtrlRad(byte returnType, double radInput, u16 speedInput, u8 accInput) {
-  radInput = constrain(radInput, -M_PI, M_PI);
-  s16 computePos = calculatePosByRad(radInput);
-  goalPos[5] = ARM_SERVO_MIDDLE_POS - computePos;
+// int RoArmM3_rollJointCtrlRad(byte returnType, double radInput, u16 speedInput, u8 accInput) {
+//   radInput = constrain(radInput, -M_PI, M_PI);
+//   s16 computePos = calculatePosByRad(radInput);
+//   goalPos[5] = ARM_SERVO_MIDDLE_POS - computePos;
   
-  if(returnType){
-    st.WritePosEx(ROLL_SERVO_ID, goalPos[5], speedInput, accInput);
-  }
-  return goalPos[5];
-}
+//   if(returnType){
+//     st.WritePosEx(ROLL_SERVO_ID, goalPos[5], speedInput, accInput);
+//   }
+//   return goalPos[5];
+// }
 
 
 // use this function to compute the servo position to ctrl grab/hand joint.
@@ -387,11 +387,11 @@ void RoArmM3_wristTorqueCtrl(int inputTorque) {
   st.LockEprom(WRIST_SERVO_ID);
 }
 
-void RoArmM3_rollTorqueCtrl(int inputTorque) {
-  st.unLockEprom(ROLL_SERVO_ID);
-  st.writeWord(ROLL_SERVO_ID, SMS_STS_TORQUE_LIMIT_L, constrain(inputTorque, ST_TORQUE_MIN, ST_TORQUE_MAX));
-  st.LockEprom(ROLL_SERVO_ID);
-}
+// void RoArmM3_rollTorqueCtrl(int inputTorque) {
+//   st.unLockEprom(ROLL_SERVO_ID);
+//   st.writeWord(ROLL_SERVO_ID, SMS_STS_TORQUE_LIMIT_L, constrain(inputTorque, ST_TORQUE_MIN, ST_TORQUE_MAX));
+//   st.LockEprom(ROLL_SERVO_ID);
+// }
 
 
 // use this function to ctrl the max torque of hand joint.
@@ -417,14 +417,14 @@ void RoArmM3_dynamicAdaptation(byte inputM, int inputB, int inputS, int inputE, 
     RoArmM3_shoulderTorqueCtrl(ST_TORQUE_MAX);
     RoArmM3_elbowTorqueCtrl(ST_TORQUE_MAX);
     RoArmM3_wristTorqueCtrl(ST_TORQUE_MAX);
-    RoArmM3_rollTorqueCtrl(ST_TORQUE_MAX);
+    // RoArmM3_rollTorqueCtrl(ST_TORQUE_MAX);
     RoArmM3_handTorqueCtrl(ST_TORQUE_MAX);
   } else if (inputM == 1) {
     RoArmM3_baseTorqueCtrl(inputB);
     RoArmM3_shoulderTorqueCtrl(inputS);
     RoArmM3_elbowTorqueCtrl(inputE);
     RoArmM3_wristTorqueCtrl(inputE);
-    RoArmM3_rollTorqueCtrl(inputE);
+    // RoArmM3_rollTorqueCtrl(inputE);
     RoArmM3_handTorqueCtrl(inputH);
   }
 }
@@ -444,7 +444,7 @@ void setNewAxisX(double angleInput) {
 
   RoArmM3_elbowJointCtrlRad(1, 0, 500, 20);
   RoArmM3_wristJointCtrlRad(1, 0, 500, 20);
-  RoArmM3_rollJointCtrlRad(1, 0, 500, 20);
+  // RoArmM3_rollJointCtrlRad(1, 0, 500, 20);
   waitMove2Goal(ELBOW_SERVO_ID, goalPos[3], 200);
 
   RoArmM3_baseJointCtrlRad(1, 0, 500, 20);
@@ -541,7 +541,7 @@ void polarToCartesian(double r, double theta, double &x, double &y) {
 // this function is used to compute the position of the end point.
 // input the angle of every joint in radius.
 // compute the positon and save it to lastXYZ by default.
-void RoArmM3_computePosbyJointRad(double base_joint_rad, double shoulder_joint_rad, double elbow_joint_rad, double wrist_joint_rad, double roll_joint_rad, double hand_joint_rad) {
+void RoArmM3_computePosbyJointRad(double base_joint_rad, double shoulder_joint_rad, double elbow_joint_rad, double wrist_joint_rad, double hand_joint_rad) {
   double aOut, bOut,   cOut, dOut,   eOut, fOut,   gOut, hOut;
   double r_ee, z_ee;
 
@@ -577,7 +577,7 @@ void RoArmM3_getPosByServoFeedback() {
   getFeedback(ELBOW_SERVO_ID, true);
 
   getFeedback(WRIST_SERVO_ID, true);
-  getFeedback(ROLL_SERVO_ID, true);
+  // getFeedback(ROLL_SERVO_ID, true);
 
   getFeedback(GRIPPER_SERVO_ID, true);
 
@@ -585,10 +585,10 @@ void RoArmM3_getPosByServoFeedback() {
   radS = calculateRadByFeedback(servoFeedback[SHOULDER_DRIVING_SERVO_ID - 11].pos, SHOULDER_JOINT);
   radE = calculateRadByFeedback(servoFeedback[ELBOW_SERVO_ID - 11].pos, ELBOW_JOINT);
   radT = calculateRadByFeedback(servoFeedback[WRIST_SERVO_ID - 11].pos, WRIST_JOINT);
-  radR = calculateRadByFeedback(servoFeedback[ROLL_SERVO_ID - 11].pos, ROLL_JOINT);
+  // radR = calculateRadByFeedback(servoFeedback[ROLL_SERVO_ID - 11].pos, ROLL_JOINT);
   radG = calculateRadByFeedback(servoFeedback[GRIPPER_SERVO_ID - 11].pos, EOAT_JOINT);
 
-  RoArmM3_computePosbyJointRad(radB, radS, radE, radT, radR, radG);
+  RoArmM3_computePosbyJointRad(radB, radS, radE, radT, radG);
 }
 
 
@@ -605,14 +605,14 @@ void RoArmM3_infoFeedback() {
   jsonInfoHttp["s"] = radS;
   jsonInfoHttp["e"] = radE;
   jsonInfoHttp["t"] = radT;
-  jsonInfoHttp["r"] = radR;
+  // jsonInfoHttp["r"] = radR;
   jsonInfoHttp["g"] = radG;
 
   jsonInfoHttp["tB"] = servoFeedback[BASE_SERVO_ID - 11].load;
   jsonInfoHttp["tS"] = servoFeedback[SHOULDER_DRIVING_SERVO_ID - 11].load - servoFeedback[SHOULDER_DRIVEN_SERVO_ID - 11].load;
   jsonInfoHttp["tE"] = servoFeedback[ELBOW_SERVO_ID - 11].load;
   jsonInfoHttp["tT"] = servoFeedback[WRIST_SERVO_ID - 11].load;
-  jsonInfoHttp["tR"] = servoFeedback[ROLL_SERVO_ID - 11].load;
+  // jsonInfoHttp["tR"] = servoFeedback[ROLL_SERVO_ID - 11].load;
   jsonInfoHttp["tG"] = servoFeedback[GRIPPER_SERVO_ID - 11].load;
 
   String getInfoJsonString;
@@ -666,7 +666,7 @@ void RoArmM3_baseCoordinateCtrl(double inputX, double inputY, double inputZ, dou
   cartesian_to_polar(beta_x, beta_y, &base_r, &BASE_JOINT_RAD);
   simpleLinkageIkRad(l2, l3, base_r, inputZ + delta_y);
   WRIST_JOINT_RAD = EOAT_JOINT_RAD_BUFFER + inputT;
-  ROLL_JOINT_RAD = inputR;
+  // ROLL_JOINT_RAD = inputR;
   EOAT_JOINT_RAD = inputG;
 }
 
@@ -691,7 +691,7 @@ void RoArmM3_goalPosMove(){
   RoArmM3_elbowJointCtrlRad(0, ELBOW_JOINT_RAD, 0, 0);
   
   RoArmM3_wristJointCtrlRad(0, WRIST_JOINT_RAD, 0, 0);
-  RoArmM3_rollJointCtrlRad(0, ROLL_JOINT_RAD, 0, 0);
+  // RoArmM3_rollJointCtrlRad(0, ROLL_JOINT_RAD, 0, 0);
 
   RoArmM3_handJointCtrlRad(0, EOAT_JOINT_RAD, 0, 0);
   st.SyncWritePosEx(servoID, 7, goalPos, moveSpd, moveAcc);
@@ -724,16 +724,16 @@ void RoArmM3_singleJointAbsCtrl(byte jointInput, double inputRad, u16 inputSpd, 
     RoArmM3_wristJointCtrlRad(1, inputRad, inputSpd, inputAcc);
     WRIST_JOINT_RAD = inputRad;
     break;
-  case ROLL_JOINT:
-    RoArmM3_rollJointCtrlRad(1, inputRad, inputSpd, inputAcc);
-    ROLL_JOINT_RAD = inputRad;
+  // case ROLL_JOINT:
+  //   RoArmM3_rollJointCtrlRad(1, inputRad, inputSpd, inputAcc);
+  //   ROLL_JOINT_RAD = inputRad;
     break;
   case EOAT_JOINT:
     RoArmM3_handJointCtrlRad(1, inputRad, inputSpd, inputAcc);
     EOAT_JOINT_RAD = inputRad;
     break;
   }
-  RoArmM3_computePosbyJointRad(BASE_JOINT_RAD, SHOULDER_JOINT_RAD, ELBOW_JOINT_RAD, WRIST_JOINT_RAD, ROLL_JOINT_RAD, EOAT_JOINT_RAD);
+  RoArmM3_computePosbyJointRad(BASE_JOINT_RAD, SHOULDER_JOINT_RAD, ELBOW_JOINT_RAD, WRIST_JOINT_RAD, EOAT_JOINT_RAD);
 }
 
 
@@ -761,12 +761,12 @@ void RoArmM3_singleJointAbsCtrl(byte jointInput, double inputRad, u16 inputSpd, 
 //           Y+
 //           |
 //           v
-void RoArmM3_allJointAbsCtrl(double inputBase, double inputShoulder, double inputElbow, double inputWrist, double inputRoll, double inputHand, u16 inputSpd, u8 inputAcc){
+void RoArmM3_allJointAbsCtrl(double inputBase, double inputShoulder, double inputElbow, double inputWrist, double inputHand, u16 inputSpd, u8 inputAcc){
   RoArmM3_baseJointCtrlRad(0, inputBase, inputSpd, inputAcc);
   RoArmM3_shoulderJointCtrlRad(0, inputShoulder, inputSpd, inputAcc);
   RoArmM3_elbowJointCtrlRad(0, inputElbow, inputSpd, inputAcc);
   RoArmM3_wristJointCtrlRad(0, inputWrist, inputSpd, inputAcc);
-  RoArmM3_rollJointCtrlRad(0, inputRoll, inputSpd, inputAcc);
+  // RoArmM3_rollJointCtrlRad(0, inputRoll, inputSpd, inputAcc);
   RoArmM3_handJointCtrlRad(0, inputHand, inputSpd, inputAcc);
   for (int i = 0;i < 7;i++) {
     moveSpd[i] = inputSpd;
@@ -959,10 +959,10 @@ void RoArmM3_setJointPID(byte jointInput, float inputP, float inputI) {
         st.writeByte(WRIST_SERVO_ID, ST_PID_P_ADDR, inputP);
         st.writeByte(WRIST_SERVO_ID, ST_PID_I_ADDR, inputI);
         break;
-  case ROLL_JOINT:
-        st.writeByte(ROLL_SERVO_ID, ST_PID_P_ADDR, inputP);
-        st.writeByte(ROLL_SERVO_ID, ST_PID_I_ADDR, inputI);
-        break;
+  // case ROLL_JOINT:
+  //       st.writeByte(ROLL_SERVO_ID, ST_PID_P_ADDR, inputP);
+  //       st.writeByte(ROLL_SERVO_ID, ST_PID_I_ADDR, inputI);
+  //       break;
 
   case EOAT_JOINT:
         st.writeByte(GRIPPER_SERVO_ID, ST_PID_P_ADDR, inputP);
@@ -978,7 +978,7 @@ void RoArmM3_resetPID() {
   RoArmM3_setJointPID(SHOULDER_JOINT, 16, 0);
   RoArmM3_setJointPID(ELBOW_JOINT, 16, 0);
   RoArmM3_setJointPID(WRIST_JOINT, 16, 0);
-  RoArmM3_setJointPID(ROLL_JOINT, 16, 0);
+  // RoArmM3_setJointPID(ROLL_JOINT, 16, 0);
   RoArmM3_setJointPID(EOAT_JOINT, 16, 0);
 }
 
@@ -1031,18 +1031,18 @@ void RoArmM3_singleJointAngleCtrl(byte jointInput, double inputAng, u16 inputSpd
     WRIST_JOINT_RAD = ang2deg(inputAng);
     RoArmM3_wristJointCtrlRad(1, WRIST_JOINT_RAD, calculatePosByDeg(inputSpd), calculatePosByDeg(inputAcc));
     break;
-  case ROLL_JOINT:
-    ROLL_JOINT_ANG = inputAng;
-    ROLL_JOINT_RAD = ang2deg(inputAng);
-    RoArmM3_rollJointCtrlRad(1, ROLL_JOINT_RAD, calculatePosByDeg(inputSpd), calculatePosByDeg(inputAcc));
-    break;
+  // case ROLL_JOINT:
+  //   ROLL_JOINT_ANG = inputAng;
+  //   ROLL_JOINT_RAD = ang2deg(inputAng);
+  //   RoArmM3_rollJointCtrlRad(1, ROLL_JOINT_RAD, calculatePosByDeg(inputSpd), calculatePosByDeg(inputAcc));
+  //   break;
   case EOAT_JOINT:
     EOAT_JOINT_ANG = inputAng;
     EOAT_JOINT_RAD = ang2deg(inputAng);
     RoArmM3_handJointCtrlRad(1, EOAT_JOINT_RAD, calculatePosByDeg(inputSpd), calculatePosByDeg(inputAcc));
     break;
   }
-  RoArmM3_computePosbyJointRad(BASE_JOINT_RAD, SHOULDER_JOINT_RAD, ELBOW_JOINT_RAD, WRIST_JOINT_RAD, ROLL_JOINT_RAD, EOAT_JOINT_RAD);
+  RoArmM3_computePosbyJointRad(BASE_JOINT_RAD, SHOULDER_JOINT_RAD, ELBOW_JOINT_RAD, WRIST_JOINT_RAD, EOAT_JOINT_RAD);
 }
 
 
@@ -1070,7 +1070,7 @@ void RoArmM3_singleJointAngleCtrl(byte jointInput, double inputAng, u16 inputSpd
 //           Y+
 //           |
 //           v
-void RoArmM3_allJointsAngleCtrl(double inputBase, double inputShoulder, double inputElbow, double inputWrist, double inputRoll, double inputHand, u16 inputSpd, u8 inputAcc){
+void RoArmM3_allJointsAngleCtrl(double inputBase, double inputShoulder, double inputElbow, double inputWrist, double inputHand, u16 inputSpd, u8 inputAcc){
   BASE_JOINT_ANG = inputBase;
   BASE_JOINT_RAD = ang2deg(inputBase);
 
@@ -1084,8 +1084,8 @@ void RoArmM3_allJointsAngleCtrl(double inputBase, double inputShoulder, double i
   WRIST_JOINT_ANG = inputWrist;
   WRIST_JOINT_RAD = ang2deg(inputWrist);
 
-  ROLL_JOINT_ANG = inputRoll;
-  ROLL_JOINT_RAD = ang2deg(inputRoll);
+  // ROLL_JOINT_ANG = inputRoll;
+  // ROLL_JOINT_RAD = ang2deg(inputRoll);
 
 
   EOAT_JOINT_ANG = inputHand;
@@ -1095,7 +1095,7 @@ void RoArmM3_allJointsAngleCtrl(double inputBase, double inputShoulder, double i
   RoArmM3_shoulderJointCtrlRad(0, SHOULDER_JOINT_RAD, 0, 0);
   RoArmM3_elbowJointCtrlRad(0, ELBOW_JOINT_RAD, 0, 0);
   RoArmM3_wristJointCtrlRad(0, WRIST_JOINT_RAD, 0, 0);
-  RoArmM3_rollJointCtrlRad(0, ROLL_JOINT_RAD, 0, 0);
+  // RoArmM3_rollJointCtrlRad(0, ROLL_JOINT_RAD, 0, 0);
   RoArmM3_handJointCtrlRad(0, EOAT_JOINT_RAD, 0, 0);
   inputSpd = abs(calculatePosByDeg(inputSpd));
   inputAcc = abs(calculatePosByDeg(inputAcc));
@@ -1128,9 +1128,9 @@ void constantCtrl(byte inputMode, byte inputAxis, byte inputCmd, byte inputSpd) 
   case WRIST_JOINT:
           const_cmd_wrist_t = inputCmd;
           break;
-  case ROLL_JOINT:
-          const_cmd_roll_r = inputCmd;
-          break;
+  // case ROLL_JOINT:
+  //         const_cmd_roll_r = inputCmd;
+  //         break;
   case EOAT_JOINT:
           const_cmd_eoat_g = inputCmd;
           break;
@@ -1139,12 +1139,12 @@ void constantCtrl(byte inputMode, byte inputAxis, byte inputCmd, byte inputSpd) 
 
 
 void constantHandle() {
-  if (!const_cmd_base_x && !const_cmd_shoulder_y && !const_cmd_elbow_z && !const_cmd_wrist_t && !const_cmd_roll_r && !const_cmd_eoat_g) {
+  if (!const_cmd_base_x && !const_cmd_shoulder_y && !const_cmd_elbow_z && !const_cmd_wrist_t && !const_cmd_eoat_g) {
     const_goal_base = radB;
     const_goal_shoulder = radS;
     const_goal_elbow = radE;
     const_goal_wrist = radT;
-    const_goal_roll = radR;
+    // const_goal_roll = radR;
     const_goal_eoat = radG;
 
     goalX = lastX;
@@ -1256,29 +1256,29 @@ void constantHandle() {
     }
   }
 
-  if (const_cmd_roll_r == MOVE_INCREASE) {
-    if (const_mode == CONST_ANGLE) {
-      const_goal_roll += const_spd;
-      if (const_goal_roll > M_PI) {
-        const_goal_roll = M_PI;
-        const_cmd_roll_r = MOVE_STOP;
-      }
-    }
-    else if (const_mode == CONST_XYZT) {
-      goalR += const_spd/200;
-    }
-  } else if (const_cmd_roll_r == MOVE_DECREASE) {
-    if (const_mode == CONST_ANGLE) {
-      const_goal_roll -= const_spd;
-      if (const_goal_roll < -M_PI) {
-        const_goal_roll = -M_PI;
-        const_cmd_roll_r = MOVE_STOP;
-      }
-    }
-    else if (const_mode == CONST_XYZT) {
-      goalR -= const_spd/200;
-    }
-  }
+  // if (const_cmd_roll_r == MOVE_INCREASE) {
+  //   if (const_mode == CONST_ANGLE) {
+  //     const_goal_roll += const_spd;
+  //     if (const_goal_roll > M_PI) {
+  //       const_goal_roll = M_PI;
+  //       const_cmd_roll_r = MOVE_STOP;
+  //     }
+  //   }
+  //   else if (const_mode == CONST_XYZT) {
+  //     goalR += const_spd/200;
+  //   }
+  // } else if (const_cmd_roll_r == MOVE_DECREASE) {
+  //   if (const_mode == CONST_ANGLE) {
+  //     // const_goal_roll -= const_spd;
+  //     // if (const_goal_roll < -M_PI) {
+  //     //   // const_goal_roll = -M_PI;
+  //     //   // const_cmd_roll_r = MOVE_STOP;
+  //     // }
+  //   }
+  //   else if (const_mode == CONST_XYZT) {
+  //     goalR -= const_spd/200;
+  //   }
+  // }
 
 
 
@@ -1307,7 +1307,7 @@ void constantHandle() {
   }
 
   if (const_mode == CONST_ANGLE) {
-    RoArmM3_allJointAbsCtrl(const_goal_base, const_goal_shoulder, const_goal_elbow, const_goal_wrist, const_goal_roll, const_goal_eoat, 0, 0);
+    RoArmM3_allJointAbsCtrl(const_goal_base, const_goal_shoulder, const_goal_elbow, const_goal_wrist, const_goal_eoat, 0, 0);
   } else if (const_mode == CONST_XYZT) {
 
     static double bufferLastX;

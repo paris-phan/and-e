@@ -593,7 +593,7 @@ const char index_html[] PROGMEM = R"rawliteral(
                             <div class="info-box json-cmd-info">
                                 <div>
                                     <p>CMD_JOINTS_RAD_CTRL</p>
-                                    <p class="cmd-value">{"T":102,"base":0,"shoulder":0,"elbow":1.57,"wrist":0,"roll":0,"hand":1.57,"spd":0,"acc":10}</p>
+                                    <p class="cmd-value">{"T":102,"base":0,"shoulder":0,"elbow":1.57,"wrist":0,"hand":1.57,"spd":0,"acc":10}</p>
                                 </div>
                                 <button class="w-btn">INPUT</button>
                             </div>
@@ -1040,7 +1040,7 @@ const char index_html[] PROGMEM = R"rawliteral(
                 "shoulder":0,
                 "elbow":1.5707965,
                 "wrist":0,
-                "roll":0,
+                // "roll":0,
                 "hand":3.1415926,
                 "spd":0,
                 "acc":10
