@@ -45,9 +45,8 @@ bool runNewJsonCmd = false;
 #define SHOULDER_JOINT 2
 #define ELBOW_JOINT    3
 #define WRIST_JOINT    4
-#define ROLL_JOINT     5
-
-#define EOAT_JOINT     6
+// #define ROLL_JOINT     5
+#define EOAT_JOINT     5
 
 
 // define servoID
@@ -71,7 +70,7 @@ bool runNewJsonCmd = false;
 #define SHOULDER_DRIVEN_SERVO_ID  13
 #define ELBOW_SERVO_ID   14
 #define WRIST_SERVO_ID   15
-#define ROLL_SERVO_ID    16
+// #define ROLL_SERVO_ID    16
 #define GRIPPER_SERVO_ID 17
 
 #define ARM_SERVO_MIDDLE_POS  2047
@@ -330,7 +329,7 @@ float const_goal_base = BASE_JOINT_ANG;
 float const_goal_shoulder = SHOULDER_JOINT_ANG;
 float const_goal_elbow = ELBOW_JOINT_ANG;
 float const_goal_wrist = WRIST_JOINT_ANG;
-float const_goal_roll = ROLL_JOINT_ANG;
+// float const_goal_roll = ROLL_JOINT_ANG;
 float const_goal_eoat = EOAT_JOINT_ANG;
 
 unsigned long prev_time = 0;

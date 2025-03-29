@@ -6,7 +6,6 @@ typedef struct struct_message {
   float shoulder;
   float elbow;
   float wrist;
-  float roll;
   float hand;
   byte cmd;
   char message[200];
@@ -137,7 +136,6 @@ void OnDataRecv(const esp_now_recv_info_t *info, const unsigned char* incomingDa
                             espNowMegsRecv.shoulder,
                             espNowMegsRecv.elbow,
                             espNowMegsRecv.wrist,
-                            espNowMegsRecv.roll,
                             espNowMegsRecv.hand,
                             0,
                             0);break;
@@ -228,7 +226,6 @@ void espNowGroupSend(byte devCodeIn, float bIn, float sIn, float eIn, float tIn,
   espNowMessage.shoulder = sIn;
   espNowMessage.elbow    = eIn;
   espNowMessage.wrist    = tIn;
-  espNowMessage.roll     = rIn;
   espNowMessage.hand     = hIn;
   espNowMessage.cmd      = cmdIn;
   // espNowMessage.message  = messageIn;
@@ -255,7 +252,6 @@ void espNowSingleDevSend(String inputMac, byte devCodeIn, float bIn, float sIn, 
   espNowMessage.shoulder = sIn;
   espNowMessage.elbow    = eIn;
   espNowMessage.wrist    = tIn;
-  espNowMessage.roll     = rIn;
   espNowMessage.hand     = hIn;
   espNowMessage.cmd      = cmdIn;
   // espNowMessage.message  = messageIn;
@@ -285,7 +281,6 @@ void espNowSingleDevFlowCtrl() {
   espNowMessage.shoulder = radS;
   espNowMessage.elbow    = radE;
   espNowMessage.wrist    = radT;
-  espNowMessage.roll     = radR;
   espNowMessage.hand     = radG;
 
   esp_err_t result = esp_now_send(singleFollowerDev, 
@@ -306,7 +301,6 @@ void espNowGroupDevsFlowCtrl() {
   espNowMessage.shoulder = radS;
   espNowMessage.elbow    = radE;
   espNowMessage.wrist    = radT;
-  espNowMessage.roll     = radR;
   espNowMessage.hand     = radG;
 
   esp_err_t result = esp_now_send(0, (uint8_t *) &espNowMessage, sizeof(struct_message));
