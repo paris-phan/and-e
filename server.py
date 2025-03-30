@@ -19,7 +19,6 @@ right_robot = RobotConnection("COM4", 115200)
 
 # Global configuration
 position_scale = 1000.0
-position_offset = {"x": 0.0, "y": 0.0, "z": 0.0} #FIX Z_OFFSET LATER
 
 # Robot constraints
 X_MIN = -330
@@ -39,15 +38,18 @@ def map_to_robot_range(value, axis):
         clamped = max(Z_MIN, min(value, Z_MAX))
     return int(clamped)
 
-def transform_coordinates(hand_x, hand_y, hand_z):    
-    robot_x = (400 - hand_y) * position_scale
-    robot_y = (400 - hand_x) * position_scale
-    robot_z = (hand_z + position_offset["z"]) * position_scale
+def transform_coordinates(hand_x, hand_y, hand_z):
+
+    # Convert from unity coordinates to standard coordinates
+    hand_x_mm = hand_z * position_scale
+    hand_y_mm = -hand_x * position_scale
+    hand_z_mm = hand_y * position_scale
+    print(f"original unity coordinates: hand_x_mm: {hand_x_mm}, hand_y_mm: {hand_y_mm}, hand_z_mm: {hand_z_mm}")
     
     robot_x = map_to_robot_range(robot_x, "x")
     robot_y = map_to_robot_range(robot_y, "y")
     robot_z = map_to_robot_range(robot_z, "z")
-
+    print(f"after mapping: robot_x: {robot_x}, robot_y: {robot_y}, robot_z: {robot_z}")
     if robot_z < 0:
         robot_z = 0
     
@@ -128,15 +130,13 @@ async def handle_connections(websocket):
                     connect_robot(robot)
                     send_command_to_robot(robot, robot_command)
                 
-                elif 'port' in data or 'baudrate' in data or 'position_scale' in data or 'position_offset' in data:
-                    global position_scale, position_offset
+                elif 'port' in data or 'baudrate' in data or 'position_scale' in data:
+                    global position_scale
                     
                     if 'position_scale' in data:
                         position_scale = float(data['position_scale'])
-                    if 'position_offset' in data:
-                        position_offset = data['position_offset']
                         
-                    print(f"Updated settings - Position scale: {position_scale}, Offset: {position_offset}")
+                    print(f"Updated settings - Position scale: {position_scale}")
                     
             except json.JSONDecodeError:
                 logging.error("Received invalid JSON message")

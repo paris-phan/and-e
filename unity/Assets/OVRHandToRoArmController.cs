@@ -72,7 +72,15 @@ public class OVRHandToRoArmController : MonoBehaviour
     /* Logic for gripping */
 
     void pinchObject(){
-        float pinchStrength = ovrHand.GetFingerPinchStrength(OVRHand.HandFinger.Index);
+        // Check pinch strength for all fingers
+        float indexPinchStrength = ovrHand.GetFingerPinchStrength(OVRHand.HandFinger.Index);
+        float middlePinchStrength = ovrHand.GetFingerPinchStrength(OVRHand.HandFinger.Middle);
+        float ringPinchStrength = ovrHand.GetFingerPinchStrength(OVRHand.HandFinger.Ring);
+        float pinkyPinchStrength = ovrHand.GetFingerPinchStrength(OVRHand.HandFinger.Pinky);
+        
+        // Use the maximum pinch strength from any finger
+        float pinchStrength = Mathf.Max(indexPinchStrength, middlePinchStrength, ringPinchStrength, pinkyPinchStrength);
+        
         // 1 means closer to pinched
         // 0 means not pinching at all
         bool isPinchingNow = pinchStrength >= pinchThreshold;
