@@ -98,7 +98,7 @@ Dr. Andy leverages the Meta Quest 3's advanced hand-tracking capabilities to cap
 
 Our VR interface provides doctors with an intuitive control scheme that feels natural, translating complex hand and finger movements into precise robotic actions. The surgeon's experience is enhanced through stereoscopic vision provided by dual cameras on the robot, creating an immersive 3D environment where they can operate as if physically present.
 
-<img src="vr_interface.png" alt="VR Interface" height="240">
+<img src="vr_interface.jpg" alt="VR Interface" height="240">
 
 ### Robotics
 
