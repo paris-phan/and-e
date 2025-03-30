@@ -121,7 +121,6 @@ void jsonCmdReceiveHandler(){
 												jsonCmdReceive["s"],
 												jsonCmdReceive["e"],
 												jsonCmdReceive["t"],
-												jsonCmdReceive["r"],
 												jsonCmdReceive["h"],
 												jsonCmdReceive["spd"],
 												jsonCmdReceive["acc"]

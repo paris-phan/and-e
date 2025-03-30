@@ -132,9 +132,9 @@ void setup() {
   if(InfoPrint == 1){Serial.println("ESP-NOW init.");}
   initEspNow();
 
-  screenLine_3 = "RoArm-M2 started";
+  screenLine_3 = "&E started";
   oled_update();
-  if(InfoPrint == 1){Serial.println("RoArm-M2 started.");}
+  if(InfoPrint == 1){Serial.println("&E started.");}
 
   getThisDevMacAddress();
 
