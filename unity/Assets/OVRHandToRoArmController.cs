@@ -4,6 +4,7 @@ using UnityEngine;
 using System;
 using WebSocketSharp;
 
+
 public class OVRHandToRoArmController : MonoBehaviour
 {
     /* Enums for the hand type and the hand configuration */
@@ -27,9 +28,10 @@ public class OVRHandToRoArmController : MonoBehaviour
     private float posUpdateInterval = 0.1f;
 
     /* Gripper Configuration */
-    private float pinchThreshold = 0.7f;
+    private float pinchThreshold = 0.1f; //change this to the minimum pinch strength to detect pinch stregnth
     private bool isPinching = false;
     private float angleOfPinch;
+    private float converted_angleOfPinch; //because 0-1 in the meta quest is not the same as 0-1 in the roarm , theyare flipped
 
     /* Reference to the camera transform (headset) */
     private Transform centerEyeAnchor;
@@ -68,21 +70,27 @@ public class OVRHandToRoArmController : MonoBehaviour
     }
 
     /* Logic for gripping */
+
     void pinchObject(){
         float pinchStrength = ovrHand.GetFingerPinchStrength(OVRHand.HandFinger.Index);
-        bool isPinching = pinchStrength > pinchThreshold;
-        if (isPinching != isPinching)
+        // 1 means closer to pinched
+        // 0 means not pinching at all
+        bool isPinchingNow = pinchStrength >= pinchThreshold;
+        converted_angleOfPinch = 1 - pinchStrength;
+
+        // Only update if the pinch state has changed
+        if (isPinchingNow != isPinching)
         {
-            isPinching = isPinching;
+            isPinching = isPinchingNow;
             if (isPinching)
             {
-                Debug.Log($"{handType} hand: Gripping");
-                angleOfPinch = 0;
+                angleOfPinch = converted_angleOfPinch * (Mathf.PI / 2f);
+                Debug.Log($"{handType} hand: Pinching");
             }
             else
             {
-                Debug.Log($"{handType} hand: Releasing");
-                angleOfPinch = 3.14f;
+                Debug.Log($"{handType} hand: Released pinch");
+                // Keep angleOfPinch at its previous value instead of resetting
             }
         }
     }
@@ -110,7 +118,7 @@ public class OVRHandToRoArmController : MonoBehaviour
                     x = handPos.x,
                     y = handPos.y,
                     z = handPos.z,
-                    t = 3.14f,
+                    t = angleOfPinch,
                     handType = handType.ToString()
                 };
 
