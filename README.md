@@ -111,7 +111,7 @@ The robotic system features:
 - Stabilization algorithms to eliminate hand tremors
 - Haptic feedback systems to provide tactile information to the surgeon
 
-<img src="robot_arms.png" alt="Robotic Arms" height="240">
+<img src="robot_arms.png" alt="Robotic Arms" height="240"><img src="robot_drawing.png" alt="Robotic Arms" height="240">
 
 ### Vision System
 
