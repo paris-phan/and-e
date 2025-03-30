@@ -70,7 +70,7 @@ bool runNewJsonCmd = false;
 #define ELBOW_SERVO_ID            14
 #define WRIST_SERVO_ID            15
 // #define ROLL_SERVO_ID           16   // removed
-#define GRIPPER_SERVO_ID          17
+#define GRIPPER_SERVO_ID          1
 
 #define ARM_SERVO_MIDDLE_POS  2047
 #define ARM_SERVO_MIDDLE_ANGLE 180
@@ -83,7 +83,7 @@ bool runNewJsonCmd = false;
 #define ARM_L1_LENGTH_MM    126.06
 #define ARM_L2_LENGTH_MM_A  236.82
 #define ARM_L2_LENGTH_MM_B	30.00 
-#define ARM_L3_LENGTH_MM_A_0	144.49
+#define ARM_L3_LENGTH_MM_A_0	280.15
 #define ARM_L3_LENGTH_MM_B_0	0
 
 // TYPE:0 configuration diagram:
@@ -110,7 +110,7 @@ double l3B = ARM_L3_LENGTH_MM_B_0;
 double l3  = sqrt(l3A * l3A + l3B * l3B);
 double t3rad = atan2(l3B, l3A);
 
-#define ARM_L3_LENGTH_MM_A_1	144.49
+#define ARM_L3_LENGTH_MM_A_1	280.15
 #define ARM_L3_LENGTH_MM_B_1	0
 
 // Edge (for TYPE:0)

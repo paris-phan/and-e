@@ -20,7 +20,7 @@ struct ServoFeedback {
   byte mode;
 };
 
-ServoFeedback servoFeedback[7];
+ServoFeedback servoFeedback[6];
 // [0] BASE_SERVO_ID
 // [1] SHOULDER_DRIVING_SERVO_ID
 // [2] SHOULDER_DRIVEN_SERVO_ID
