@@ -167,7 +167,7 @@ double initY = 0;
 double initZ = l2A - ARM_L4_LENGTH_MM_B;
 double initT = 0;
 double initR = 0;
-double initG = 3.14;
+double initG = 3.14 / 3;
 
 
 double goalX = initX;
@@ -262,8 +262,8 @@ double ARM_SHOULDER_LIMIT_MAX_RAD =  M_PI/2;
 double ARM_ELBOW_LIMIT_MIN_RAD    = -M_PI/2;
 double ARM_ELBOW_LIMIT_MAX_RAD    =  M_PI/2;
 
-double ARM_GRIPPER_LIMIT_MIN_RAD  = -M_PI/2;
-double ARM_GRIPPER_LIMIT_MAX_RAD  =  M_PI/2;
+double ARM_GRIPPER_LIMIT_MIN_RAD  = 0.3;
+double ARM_GRIPPER_LIMIT_MAX_RAD  =  M_PI/3;
 
 
 // --- --- --- Pneumatic Components && Lights --- --- ---
