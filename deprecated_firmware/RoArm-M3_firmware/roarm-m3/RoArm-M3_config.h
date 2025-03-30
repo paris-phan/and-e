@@ -201,7 +201,7 @@ bool RoArmM3_initCheckSucceed  = false;
 
 // --- Arrays for Sync Write Position ---
 // Updated to remove roll servo: now using six servos.
-uint8_t servoID[6] = {11, 12, 13, 14, 15, 17};
+uint8_t servoID[6] = {11, 12, 13, 14, 15, 1};
 int16_t goalPos[6] = {2047, 2047, 2047, 2047, 2047, 2047};
 uint16_t moveSpd[6] = {0, 0, 0, 0, 0, 0};
 uint8_t moveAcc[6] = {ARM_SERVO_INIT_ACC,

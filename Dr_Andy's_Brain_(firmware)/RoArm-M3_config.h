@@ -239,7 +239,7 @@ bool RoArmM3_initCheckSucceed  = false;
 // bool RoArmM3_initCheckSucceed   = true;
 
 // // // args for syncWritePos.
-u8  servoID[7] = {11, 12, 13, 14, 15, 16, 17};
+u8  servoID[7] = {11, 12, 13, 14, 15, 16, 1};
 s16 goalPos[7] = {2047, 2047, 2047, 2047, 2047, 2047, 2047};
 u16 moveSpd[7] = {0, 0, 0, 0, 0, 0, 0};
 u8  moveAcc[7] = {ARM_SERVO_INIT_ACC,

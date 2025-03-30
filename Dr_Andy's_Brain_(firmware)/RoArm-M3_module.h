@@ -69,7 +69,25 @@ double calculateRadByFeedback(int inputSteps, int jointName) {
 // returnType: false - return everything.
 //              true - return only when failed.
 bool getFeedback(byte servoID, bool returnType) {
-  if(st.FeedBack(servoID)!=-1) {
+  if (servoID == 1) {
+    servoFeedback[6].status = true;
+  	servoFeedback[6].pos = st.ReadPos(-1);
+    servoFeedback[6].speed = st.ReadSpeed(-1);
+    servoFeedback[6].load = st.ReadLoad(-1);
+    servoFeedback[6].voltage = st.ReadVoltage(-1);
+    servoFeedback[6].current = st.ReadCurrent(-1);
+    servoFeedback[6].temper = st.ReadTemper(-1);
+    servoFeedback[6].mode = st.ReadMode(servoID);
+    if(!returnType){
+      if(InfoPrint == 1){Serial.print("Servo ID:");Serial.print(servoID);
+                    Serial.print(" status: checked. pos:");
+                    Serial.println(servoFeedback[6].pos);}
+    }
+    else{
+      return true;
+    }
+    return true;
+  } else if(st.FeedBack(servoID)!=-1) {
     servoFeedback[servoID - 11].status = true;
   	servoFeedback[servoID - 11].pos = st.ReadPos(-1);
     servoFeedback[servoID - 11].speed = st.ReadSpeed(-1);

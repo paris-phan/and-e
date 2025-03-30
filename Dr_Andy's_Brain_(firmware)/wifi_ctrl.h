@@ -19,7 +19,7 @@
 byte WIFI_MODE_ON_BOOT = 1;
 const char* sta_ssid = "none";
 const char* sta_password = "none";
-const char* ap_ssid = "RoArm-M3";
+const char* ap_ssid = "Dr. Andy's Brain";
 const char* ap_password = "12345678";
 
 // true: change the WIFI_MODE_ON_BOOT to 3 when first STA mode succeed.

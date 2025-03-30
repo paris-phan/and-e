@@ -53,8 +53,8 @@ void setup() {
   delay(1200);
 
   initOLED();
-  screenLine_0 = "RoArm-M2";
-  screenLine_1 = "version: 0.84";
+  screenLine_0 = "Dr. Andy's Brain";
+  screenLine_1 = "version: 1";
   screenLine_2 = "starting...";
   screenLine_3 = "";
   oled_update();
@@ -132,9 +132,9 @@ void setup() {
   if(InfoPrint == 1){Serial.println("ESP-NOW init.");}
   initEspNow();
 
-  screenLine_3 = "RoArm-M2 started";
+  screenLine_3 = "Dr. Andy's Brain started";
   oled_update();
-  if(InfoPrint == 1){Serial.println("RoArm-M2 started.");}
+  if(InfoPrint == 1){Serial.println("Dr. Andy's Brain started.");}
 
   getThisDevMacAddress();
 
