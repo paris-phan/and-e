@@ -222,7 +222,7 @@ void deleteFollower(String inputMac) {
 }
 
 
-void espNowGroupSend(byte devCodeIn, float bIn, float sIn, float eIn, float tIn, float rIn, float hIn, byte cmdIn, String messageIn) {
+void espNowGroupSend(byte devCodeIn, float bIn, float sIn, float eIn, float tIn, float hIn, byte cmdIn, String messageIn) {
   espNowMessage.devCode  = devCodeIn;
   espNowMessage.base     = bIn;
   espNowMessage.shoulder = sIn;
@@ -244,7 +244,7 @@ void espNowGroupSend(byte devCodeIn, float bIn, float sIn, float eIn, float tIn,
 }
 
 
-void espNowSingleDevSend(String inputMac, byte devCodeIn, float bIn, float sIn, float eIn, float tIn, float rIn, float hIn, byte cmdIn, String messageIn){
+void espNowSingleDevSend(String inputMac, byte devCodeIn, float bIn, float sIn, float eIn, float tIn, float hIn, byte cmdIn, String messageIn){
   if (inputMac.length() != 17) {
     Serial.println("invalid MAC address format.");
     return;

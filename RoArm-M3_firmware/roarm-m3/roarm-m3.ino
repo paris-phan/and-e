@@ -115,7 +115,7 @@ void setup() {
   screenLine_3 = "Reset joint torque to ST_TORQUE_MAX";
   oled_update();
   if(InfoPrint == 1){Serial.println("Reset joint torque to ST_TORQUE_MAX.");}
-  RoArmM3_dynamicAdaptation(0, ST_TORQUE_MAX, ST_TORQUE_MAX, ST_TORQUE_MAX, ST_TORQUE_MAX, ST_TORQUE_MAX, ST_TORQUE_MAX);
+  RoArmM3_dynamicAdaptation(0, ST_TORQUE_MAX, ST_TORQUE_MAX, ST_TORQUE_MAX, ST_TORQUE_MAX, ST_TORQUE_MAX);
 
   screenLine_3 = "WiFi init";
   oled_update();
@@ -145,7 +145,7 @@ void setup() {
 
   RoArmM3_handTorqueCtrl(300);
 
-  RoArmM3_allPosAbsBesselCtrl(l2B + l3A + ARM_L4_LENGTH_MM_A, 0, l2A - ARM_L4_LENGTH_MM_B, 0, 0, 3.14, 0.25);
+  RoArmM3_allPosAbsBesselCtrl(l2B + l3A + ARM_L4_LENGTH_MM_A, 0, l2A - ARM_L4_LENGTH_MM_B, 0, 3.14, 0.25);
 
   if(InfoPrint == 1){Serial.println("Application initialization settings.");}
   createMission("boot", "these cmds run automatically at boot.");
