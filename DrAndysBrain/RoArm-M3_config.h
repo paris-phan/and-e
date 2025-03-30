@@ -259,8 +259,8 @@ double ARM_BASE_LIMIT_MAX_RAD     =  M_PI/2;
 double ARM_SHOULDER_LIMIT_MIN_RAD = -M_PI/2;
 double ARM_SHOULDER_LIMIT_MAX_RAD =  M_PI/2;
 
-double ARM_ELBOW_LIMIT_MIN_RAD    = -M_PI/2;
-double ARM_ELBOW_LIMIT_MAX_RAD    =  M_PI/2;
+double ARM_ELBOW_LIMIT_MIN_RAD    = -M_PI/4; // reduced from /2
+double ARM_ELBOW_LIMIT_MAX_RAD    =  M_PI/4; 
 
 double ARM_GRIPPER_LIMIT_MIN_RAD  = 0.3;
 double ARM_GRIPPER_LIMIT_MAX_RAD  =  M_PI/3;

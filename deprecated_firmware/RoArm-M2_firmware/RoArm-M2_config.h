@@ -62,7 +62,7 @@ bool runNewJsonCmd = false;
 #define SHOULDER_DRIVING_SERVO_ID 12
 #define SHOULDER_DRIVEN_SERVO_ID  13
 #define ELBOW_SERVO_ID   14
-#define TILT_SERVO_ID 15
+#define GRIPPER_SERVO_ID 1
 
 #define ARM_SERVO_MIDDLE_POS  2047
 #define ARM_SERVO_MIDDLE_ANGLE 180
@@ -208,7 +208,7 @@ bool RoArmM2_initCheckSucceed  = false;
 // bool RoArmM2_initCheckSucceed   = true;
 
 // // // args for syncWritePos.
-u8  servoID[5] = {11, 12, 13, 14, 15};
+u8  servoID[5] = {11, 12, 13, 14, 1};
 s16 goalPos[5] = {2047, 2047, 2047, 2047, 2047};
 u16 moveSpd[5] = {0, 0, 0, 0, 0};
 u8  moveAcc[5] = {ARM_SERVO_INIT_ACC,
@@ -227,8 +227,8 @@ double ARM_SHOULDER_LIMIT_MAX_RAD =  M_PI/2;
 double ARM_ELBOW_LIMIT_MIN_RAD    = -M_PI/2;
 double ARM_ELBOW_LIMIT_MAX_RAD    =  M_PI/2;
 
-double ARM_GRIPPER_LIMIT_MIN_RAD  = -M_PI/2;
-double ARM_GRIPPER_LIMIT_MAX_RAD  =  M_PI/2;
+double ARM_GRIPPER_LIMIT_MIN_RAD  = 0.3;
+double ARM_GRIPPER_LIMIT_MAX_RAD  =  M_PI/5;
 
 
 // --- --- --- Pneumatic Components && Lights --- --- ---
