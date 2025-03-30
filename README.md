@@ -188,12 +188,6 @@ Dr. Andy is just getting started. Our roadmap includes:
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
-
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 [Meta-Quest]: https://img.shields.io/badge/Meta_Quest-0078D4?style=for-the-badge&logo=meta&logoColor=white
