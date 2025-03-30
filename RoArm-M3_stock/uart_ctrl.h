@@ -27,7 +27,7 @@ void jsonCmdReceiveHandler(){
 												jsonCmdReceive["shoulder"],
 												jsonCmdReceive["elbow"],
 												jsonCmdReceive["wrist"],
-												// jsonCmdReceive["roll"],
+												jsonCmdReceive["roll"],
 												jsonCmdReceive["hand"],
 												jsonCmdReceive["spd"],
 												jsonCmdReceive["acc"]
