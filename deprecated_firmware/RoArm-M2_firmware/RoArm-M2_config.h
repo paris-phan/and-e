@@ -153,7 +153,7 @@ double tErad = atan2(lEB, lEA);
 double initX = l3A+l2B; //
 double initY = 0;
 double initZ = l2A-l3B;
-double initT = M_PI;
+double initT = M_PI/16;
 
 double goalX = initX;
 double goalY = initY;
@@ -227,8 +227,8 @@ double ARM_SHOULDER_LIMIT_MAX_RAD =  M_PI/2;
 double ARM_ELBOW_LIMIT_MIN_RAD    = -M_PI/2;
 double ARM_ELBOW_LIMIT_MAX_RAD    =  M_PI/2;
 
-double ARM_GRIPPER_LIMIT_MIN_RAD  = 0.1;
-double ARM_GRIPPER_LIMIT_MAX_RAD  =  M_PI/5;
+double ARM_GRIPPER_LIMIT_MIN_RAD  = -M_PI/2;
+double ARM_GRIPPER_LIMIT_MAX_RAD  =  M_PI/2;
 
 
 // --- --- --- Pneumatic Components && Lights --- --- ---

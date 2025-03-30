@@ -622,20 +622,28 @@ void movePoint(double xA, double yA, double s, double *xB, double *yB) {
 // change this func and goalPosMove()
 // Coordinate Ctrl: input the coordinate point of the goal position to compute
 // the goalPos of every joints.
-void RoArmM2_baseCoordinateCtrl(double inputX, double inputY, double inputZ, double inputT){
+
+
+// Define your offset (in radians) somewhere at the top.
+double t_offset = 0;
+
+void RoArmM2_baseCoordinateCtrl(double inputX, double inputY, double inputZ, double inputT) {
+  double adjustedT = inputT + t_offset;
+  
   if (EEMode == 0) {
     cartesian_to_polar(inputX, inputY, &base_r, &BASE_JOINT_RAD);
     simpleLinkageIkRad(l2, l3, base_r, inputZ);
-    RoArmM2_handJointCtrlRad(0, inputT, 0, 0);
+    RoArmM2_handJointCtrlRad(0, adjustedT, 0, 0);
   }
   else if (EEMode == 1) {
-    rotatePoint((inputT - M_PI), &delta_x, &delta_y);
+    rotatePoint((adjustedT - M_PI), &delta_x, &delta_y);
     movePoint(inputX, inputY, delta_x, &beta_x, &beta_y);
     cartesian_to_polar(beta_x, beta_y, &base_r, &BASE_JOINT_RAD);
     simpleLinkageIkRad(l2, l3, base_r, inputZ + delta_y);
-    EOAT_JOINT_RAD = EOAT_JOINT_RAD_BUFFER + inputT;
+    EOAT_JOINT_RAD = EOAT_JOINT_RAD_BUFFER + adjustedT;
   }
 }
+
 
 
 // update last position for later use.
