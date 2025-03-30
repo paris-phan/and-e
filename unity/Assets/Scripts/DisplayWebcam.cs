@@ -4,6 +4,7 @@ public class DisplayWebcam : MonoBehaviour
 {
 
     public RenderTexture renderTexture;
+    public Material paddingMaterial;
     private WebCamTexture tex;
     
     private Renderer rend;
@@ -29,8 +30,8 @@ public class DisplayWebcam : MonoBehaviour
     {
         // when the webcam feed is updated, update the render texture
         if (tex && tex.didUpdateThisFrame)
-        {
-            Graphics.Blit(tex, renderTexture);
+        { 
+            Graphics.Blit(tex, renderTexture, paddingMaterial);
         }
     }
 }
