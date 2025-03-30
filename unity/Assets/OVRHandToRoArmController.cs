@@ -76,7 +76,7 @@ public class OVRHandToRoArmController : MonoBehaviour
         // 1 means closer to pinched
         // 0 means not pinching at all
         bool isPinchingNow = pinchStrength >= pinchThreshold;
-        converted_angleOfPinch = Mathf.Abs(1 - pinchStrength);
+        converted_angleOfPinch = 1 - pinchStrength;
 
         // Only update if the pinch state has changed
         if (isPinchingNow != isPinching)
