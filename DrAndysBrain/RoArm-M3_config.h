@@ -84,7 +84,7 @@ bool runNewJsonCmd = false;
 #define ARM_L1_LENGTH_MM    126.06
 #define ARM_L2_LENGTH_MM_A  236.82
 #define ARM_L2_LENGTH_MM_B	30.00 
-#define ARM_L3_LENGTH_MM_A_0	280.15 //144.49
+#define ARM_L3_LENGTH_MM_A_0	215.99 //orig 144.49 m3, 280.15 m2
 #define ARM_L3_LENGTH_MM_B_0	0
 
 // 	  TYPE:0
@@ -112,11 +112,13 @@ double l3  = sqrt(l3A * l3A + l3B * l3B);
 double t3rad = atan2(l3B, l3A);
 
 
-#define ARM_L3_LENGTH_MM_A_1	144.49
+#define ARM_L3_LENGTH_MM_A_1	215.99 //orig 144.49 m3, 215.9 m2
 #define ARM_L3_LENGTH_MM_B_1	0
 
 // edge
-double ARM_L4_LENGTH_MM_A =	171.67;
+// CENTER OF CLAW = 136.84
+// END OF CLAW = 190.29
+double ARM_L4_LENGTH_MM_A =	136.84; //orig 171.67 m3, 67.85 m2
 
 // D-3.2
 // double ARM_L4_LENGTH_MM_A =	64.16;
@@ -127,7 +129,7 @@ double ARM_L4_LENGTH_MM_A =	171.67;
 // D-10.2
 // double ARM_L4_LENGTH_MM_A =	51.07;
 
-#define ARM_L4_LENGTH_MM_B  13.69
+#define ARM_L4_LENGTH_MM_B  0 //orig 13.69 m3
 
 //    TYPE:1
 //                   -------L3A-----------O==L2B===
