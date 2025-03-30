@@ -2,7 +2,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-    <img src="dr_andy_logo.png" alt="Logo...errrr" height="240">
+    <img src="andy.png" alt="Logo...errrr" height="240">
 
   <h1 align="center">Dr. Andy</h1>
 
