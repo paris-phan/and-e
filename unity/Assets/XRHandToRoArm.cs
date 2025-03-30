@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using WebSocketSharp;
-using UnityEngine.XR.Hands;
-using UnityEngine.XR;
 
-public class XRHandToRoArmController : MonoBehaviour
+
+public class XRHandToRoArm : MonoBehaviour
 {
     /* Enums for the hand type and the hand configuration */
 
@@ -19,7 +18,8 @@ public class XRHandToRoArmController : MonoBehaviour
 
     /* WebSocket Configuration */
     public HandType handType;
-    public XRHand xrHand;
+    public OVRHand ovrHand;
+    public OVRSkeleton ovrSkeleton;
     public Vector3 handPos;
 
     /* WebSocket Configuration */
@@ -35,19 +35,6 @@ public class XRHandToRoArmController : MonoBehaviour
 
     /* Reference to the camera transform (headset) */
     private Transform centerEyeAnchor;
-    
-    /* XR Hands references */
-    private XRHandSubsystem handSubsystem;
-    private XRHandJoint thumbTip;
-    private XRHandJoint indexTip;
-    private XRHandJoint middleTip;
-    private XRHandJoint ringTip;
-    private XRHandJoint pinkyTip;
-
-    private float left_x_offset = .14f;
-    private float right_x_offset = -.11f;
-    private float y_offset = .35f;
-    private float z_offset = -.14f;
 
     // JSON class for sending hand position to the server
     [Serializable]
@@ -61,30 +48,11 @@ public class XRHandToRoArmController : MonoBehaviour
         public string handType; // Added to identify which hand sent the data
     }
 
-
-
-
     void Start()
     {
         // Get the main camera (center eye)
         centerEyeAnchor = Camera.main.transform;
-        
-        // Get XR Hand subsystem
-        List<XRHandSubsystem> handSubsystems = new List<XRHandSubsystem>();
-        SubsystemManager.GetSubsystems(handSubsystems);
-        if (handSubsystems.Count > 0)
-        {
-            handSubsystem = handSubsystems[0];
-        }
-        else
-        {
-            Debug.LogError("No XR Hand subsystem found!");
-        }
-    }
 
-    void OnEnable()
-    {
-        // Initialize WebSocket connection when enabled
         ws = new WebSocket("ws://127.0.0.1:8766");
         ws.Connect();
 
@@ -102,39 +70,18 @@ public class XRHandToRoArmController : MonoBehaviour
     }
 
     /* Logic for gripping */
+
     void pinchObject(){
-        if (handSubsystem == null || !handSubsystem.running) 
-            return;
-            
-        XRHand hand = (handType == HandType.Left) ? 
-            handSubsystem.leftHand : handSubsystem.rightHand;
-            
-        if (!hand.isTracked)
-            return;
-            
-        // Get finger joints
-        if (!GetFingerTips(hand))
-            return;
-            
-        // Calculate pinch strength by measuring distance between thumb and index finger
-        float thumbToIndexDist = Vector3.Distance(GetJointPosition(thumbTip), GetJointPosition(indexTip));
-        float thumbToMiddleDist = Vector3.Distance(GetJointPosition(thumbTip), GetJointPosition(middleTip));
-        float thumbToRingDist = Vector3.Distance(GetJointPosition(thumbTip), GetJointPosition(ringTip));
-        float thumbToPinkyDist = Vector3.Distance(GetJointPosition(thumbTip), GetJointPosition(pinkyTip));
-        
-        // Normalize distance (smaller distance = stronger pinch)
-        float maxDistance = 0.1f; // Adjust based on real-world hand size
-        float pinchStrength = 1 - Mathf.Clamp01(thumbToIndexDist / maxDistance);
-        
-        // Update angle continuously
-        converted_angleOfPinch = 1 - pinchStrength;
-        angleOfPinch = converted_angleOfPinch * (Mathf.PI / 2f);
-        
+        float pinchStrength = ovrHand.GetFingerPinchStrength(OVRHand.HandFinger.Index);
         // 1 means closer to pinched
         // 0 means not pinching at all
         bool isPinchingNow = pinchStrength >= pinchThreshold;
-
-        // Only update if the pinch state has changed
+        converted_angleOfPinch = 1 - pinchStrength;
+        
+        // Always update the angle based on current pinch strength
+        angleOfPinch = converted_angleOfPinch * (Mathf.PI / 2f);
+        
+        // Only log messages if the pinch state has changed
         if (isPinchingNow != isPinching)
         {
             isPinching = isPinchingNow;
@@ -145,84 +92,43 @@ public class XRHandToRoArmController : MonoBehaviour
             else
             {
                 Debug.Log($"{handType} hand: Released pinch");
-            }
+             }
         }
-    }
-    
-    private bool GetFingerTips(XRHand hand)
-    {
-        // Get finger tip joints
-        bool found = true;
-        found &= hand.GetJoint(XRHandJointID.ThumbTip).TryGetPose(out var thumbPose);
-        found &= hand.GetJoint(XRHandJointID.IndexTip).TryGetPose(out var indexPose);
-        found &= hand.GetJoint(XRHandJointID.MiddleTip).TryGetPose(out var middlePose);
-        found &= hand.GetJoint(XRHandJointID.RingTip).TryGetPose(out var ringPose);
-        found &= hand.GetJoint(XRHandJointID.LittleTip).TryGetPose(out var pinkyPose);
-        
-        if (found)
-        {
-            thumbTip = hand.GetJoint(XRHandJointID.ThumbTip);
-            indexTip = hand.GetJoint(XRHandJointID.IndexTip);
-            middleTip = hand.GetJoint(XRHandJointID.MiddleTip);
-            ringTip = hand.GetJoint(XRHandJointID.RingTip);
-            pinkyTip = hand.GetJoint(XRHandJointID.LittleTip);
-        }
-        
-        return found;
-    }
-    
-    private Vector3 GetJointPosition(XRHandJoint joint)
-    {
-        if (joint.TryGetPose(out Pose pose))
-        {
-            return pose.position;
-        }
-        return Vector3.zero;
     }
 
     /* method that updates every frame*/
     void Update()
     {
-        if (handSubsystem != null && handSubsystem.running)
+        if (ovrHand && ovrHand.IsTracked && centerEyeAnchor != null)
         {
-            XRHand hand = (handType == HandType.Left) ? 
-                handSubsystem.leftHand : handSubsystem.rightHand;
-                
-            if (hand.isTracked && centerEyeAnchor != null)
+            posUpdateTimer += Time.deltaTime;
+
+            if (posUpdateTimer >= posUpdateInterval)
             {
-                posUpdateTimer += Time.deltaTime;
+                posUpdateTimer = 0f;
 
-                if (posUpdateTimer >= posUpdateInterval)
+                // Get hand position relative to the headset (center eye) 
+                Vector3 worldHandPos = ovrHand.transform.position;
+                handPos = centerEyeAnchor.InverseTransformPoint(worldHandPos);
+                
+                //seeing if the hand is pinching 
+                pinchObject();
+                
+                HandPosition myHandPosition = new HandPosition
                 {
-                    posUpdateTimer = 0f;
+                    x = handPos.x,
+                    y = handPos.y,
+                    z = handPos.z,
+                    t = angleOfPinch,
+                    handType = handType.ToString()
+                };
 
-                    // Get hand root position
-                    XRHandJoint palmJoint = hand.GetJoint(XRHandJointID.Palm);
-                    if (palmJoint.TryGetPose(out Pose palmPose))
-                    {
-                        Vector3 worldHandPos = palmPose.position;
-                        handPos = centerEyeAnchor.InverseTransformPoint(worldHandPos);
-                        
-                        //seeing if the hand is pinching 
-                        pinchObject();
-                        
-                        HandPosition myHandPosition = new HandPosition
-                        {
-                            x = handPos.x + (handType == HandType.Left ? left_x_offset : right_x_offset),
-                            y = handPos.y + y_offset,
-                            z = handPos.z + z_offset,
-                            t = angleOfPinch,
-                            handType = handType.ToString()
-                        };
+                string json_handPos = JsonUtility.ToJson(myHandPosition);
+                Debug.Log($"JSON for {handType} hand: {json_handPos}");
 
-                        string json_handPos = JsonUtility.ToJson(myHandPosition);
-                        Debug.Log($"JSON for {handType} hand: {json_handPos}");
-
-                        if (!string.IsNullOrEmpty(json_handPos) && ws != null && ws.IsAlive)
-                        {
-                            ws.Send(json_handPos);
-                        }
-                    }
+                if (!string.IsNullOrEmpty(json_handPos) && ws != null && ws.IsAlive)
+                {
+                    ws.Send(json_handPos);
                 }
             }
         }
@@ -233,16 +139,6 @@ public class XRHandToRoArmController : MonoBehaviour
         if (ws != null && ws.IsAlive)
         {
             ws.Close();
-        }
-    }
-
-    void OnDisable()
-    {
-        // Close WebSocket connection when component is disabled
-        if (ws != null && ws.IsAlive)
-        {
-            ws.Close();
-            ws = null;
         }
     }
 }
