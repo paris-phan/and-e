@@ -189,30 +189,6 @@ Dr. Andy is just getting started. Our roadmap includes:
 
 
 
-<!-- CONTACT -->
-## Contact
-
-Project Lead - [email@example.com](mailto:email@example.com)
-
-Hardware Engineer - [email@example.com](mailto:email@example.com)
-
-Software Engineer - [email@example.com](mailto:email@example.com)
-
-VR Specialist - [email@example.com](mailto:email@example.com)
-
-Project Link: [https://github.com/yourusername/dr-andy](https://github.com/yourusername/dr-andy)
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
-<!-- ACKNOWLEDGMENTS -->
-## Acknowledgments
-
-* [Name of Hackathon]
-* [Sponsoring Organizations]
-* [Mentors and Advisors]
-* [Open Source Projects That Helped]
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
