@@ -22,7 +22,7 @@
   </p>
 </div>
 
-<div style="display: flex; justify-content: center;">
+<div align="center">
     <img src="hero.gif" width="500" alt="Demo GIF">
 </div>
 
