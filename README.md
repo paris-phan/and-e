@@ -22,6 +22,10 @@
   </p>
 </div>
 
+<div style="display: flex; justify-content: center;">
+    <img src="hero.gif" width="500" alt="Demo GIF">
+</div>
+
 
 
 <!-- TABLE OF CONTENTS -->
